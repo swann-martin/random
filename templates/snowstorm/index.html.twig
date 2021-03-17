@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}It is swnowtime!
+{% endblock %}
+
+
+{% block body %}
+	<section class="container my-3">
+
+		<h1>Jingle Bells!</h1>
+		<p>
+			<small>It's made with Symfony 5</small>
+		</p>
+
+		{% for snowflake in snowflakes %}
+
+			<div class="card my-2 p-2">
+				<h2 class="title">{{snowflake.name}}
+					:</h2>
+				<h3>Porte bonheur :
+					<u>{{snowflake.luckyNumber}}</u>
+				</h3>
+				<div class="card-body ">
+					<div class="card-content">
+						<p class="card-content">Le
+							{{snowflake.createdAt|date('d/M/Y') }}</p>
+						<p class="card-content">{{snowflake.description}}</p>
+
+						<div>
+							<a href="/snowflake/{{snowflake.id}}" class="btn btn-dark">Sélectionner</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		{% endfor %}
+
+	</section>
+
+{% endblock %}
