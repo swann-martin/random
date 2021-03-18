@@ -1,0 +1,27 @@
+{{form_start(form)}}
+
+{{form_errors(form)}}
+<div class="form-row form">
+
+	<div class="form-label">
+		{{form_label(form.name)}}
+	</div>
+	<div>
+		{{form_widget(form.name)}}
+	</div>
+</div>
+
+<div class="form-col">
+	{{form_label(form.description)}}
+	{{form_row(form.description)}}
+</div>
+
+<div class="form-col">
+	{{form_label(form.luckyNumber)}}
+	<div class="">
+		{{form_widget(form.luckyNumber)}}
+	</div>
+</div>
+
+<input type="submit" class="btn btn-primary my-2" value="{{submitButtonText}}"/>
+{{form_end(form)}}

@@ -56,15 +56,15 @@ class RandomController extends AbstractController
      */
     public function snowtimeById(SnowflakeRepository $snowflakeRepository, $id): Response
     {
-        $snowflakeById = $snowflakeRepository->findOneById($id);
+        $snowflake = $snowflakeRepository->findOneById($id);
 
         return $this->render('snowstorm/details.html.twig', [
-            'snowflakeById' => $snowflakeById
+            'snowflake' => $snowflake
         ]);
     }
 
     /**
-     * @Route("/new", name="app_new")
+     * @Route("/new", name="app_new", methods="GET|POST")
      */
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -74,6 +74,8 @@ class RandomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $snowflake->setCreatedAt(new \DateTime('now'));
+            $snowflake->setCreatedAtValue();
             $manager->persist($snowflake);
             $manager->flush();
 
@@ -84,5 +86,38 @@ class RandomController extends AbstractController
             'snowstorm/create.html.twig',
             ['form' => $form->createView()]
         );
+    }
+
+    /**
+     * @Route("/snowflake/edit/{id<\d+>}", name ="app_snowflake_edit")
+     */
+    public function edit(Request $request, EntityManagerInterface $manager, Snowflake $snowflake): Response
+    {
+
+        $form = $this->createForm(SnowflakeType::class, $snowflake);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($snowflake);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_snowflake');
+        }
+
+        return $this->render(
+            'snowstorm/edit.html.twig',
+            ['form' => $form->createView()]
+        );
+    }
+
+    /**
+     * @Route("/snowflake/delete/{id<\d+>}", name ="app_snowflake_delete")
+     */
+    public function delete(EntityManagerInterface $manager, Snowflake $snowflake): Response
+    {
+        $manager->remove($snowflake);
+        $manager->flush();
+        return $this->redirectToRoute('app_snowflake');
     }
 }

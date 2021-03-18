@@ -8,21 +8,23 @@
 	<section class="container my-3">
 
 		<h1>L'identifiant est
-			{{snowflakeById.id}}</h1>
+			{{snowflake.id}}</h1>
 
 
 		<div class="card my-2 p-2  ">
-			<h2 class="title">{{snowflakeById.name}}
+			<h2 class="title">{{snowflake.name}}
 				/ Porte bonheur
-				{{snowflakeById.luckyNumber}}</h2>
+				{{snowflake.luckyNumber}}</h2>
 			<div class="card-body">
 				<p class="card-content">Le
-					{{snowflakeById.createdAt|date('d/M/Y') }}</p>
+					{{snowflake.createdAt|date('d/M/Y') }}</p>
 
-				<p class="card-content">{{snowflakeById.description}}</p>
+				<p class="card-content">{{snowflake.description}}</p>
 			</div>
 			<div>
-				<a href="/snowflake" class="btn btn-danger">Retour à la page principale</a>
+				<a href="{{path('app_snowflake')}}" class="btn btn-primary">Retour à la page principale</a>
+				<a href="{{path('app_snowflake_edit', {id:snowflake.id} )}}" class="btn btn-dark my-2">Modifier</a>
+				<a href="{{path('app_snowflake_delete', {id:snowflake.id} )}}" class="btn btn-danger my-2">Supprimer</a>
 			</div>
 		</div>
 

@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajouter un flocon
+{% endblock %}
+
+{% block body %}
+	<div class="container my-5">
+		<div class="row">
+			<div class="col">
+				<h4>Ajouter un snowflake</h4>
+			</div>
+		</div>
+		<section>
+			{{ include ('common/_form.html.twig', {submitButtonText : 'Create a snowflake'}) }}
+		</section>
+	</div>
+{% endblock %}

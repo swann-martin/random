@@ -7,26 +7,26 @@
 {% block body %}
 	<section class="container my-3">
 
-		<h1 class="text-center">Jingle Bells!</h1>
-		<section class="d-flex justify-around mx-auto">
+		<h1 class="text-center mb-3">Mes entités en Symfony</h1>
+		<section class="d-flex justify-around wrap-wrap	">
 			{% for snowflake in snowflakes %}
 
 				<a href="{{ path('app_snowflake_show', {id:snowflake.id}) }}">
-					<div class="card card-snow m-2 p-2 w-50">
+					<div class="card card-snow mx-5 p-2" style="width = 12rem;">
 						<h2 class="title">{{snowflake.name}}
 							:</h2>
-						<h3>Porte bonheur :
-							<u>{{snowflake.luckyNumber}}</u>
-						</h3>
 						<div class="card-body ">
 							<div class="card-content">
-								<p class="card-content">Le
-									{{snowflake.createdAt|date('d/M/Y') }}</p>
-								<p class="card-content">{{snowflake.description}}</p>
+
+								<p>Numéro porte bonheur :
+									{{snowflake.luckyNumber}}
+								</p>
 
 								<div>
-									<a href="/snowflake/{{snowflake.id}}" class="btn btn-dark">Sélectionner</a>
+									<a href="{{path('app_snowflake_edit', {id:snowflake.id} )}}" class="btn btn-dark my-2">Modifier</a>
+									<a href="{{path('app_snowflake_delete', {id:snowflake.id} )}}" class="btn btn-danger my-2">Supprimer</a>
 								</div>
+
 							</div>
 						</div>
 					</div>

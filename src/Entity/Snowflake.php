@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SnowflakeRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Snowflake
 {
@@ -88,5 +89,14 @@ class Snowflake
         $this->CreatedAt = $CreatedAt;
 
         return $this;
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime('now');
     }
 }
