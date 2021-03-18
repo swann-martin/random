@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Snowflake;
 use App\Form\SnowflakeType;
 use App\Repository\SnowflakeRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RandomController extends AbstractController
 {
@@ -17,7 +19,7 @@ class RandomController extends AbstractController
 
 
     /**
-     * @Route("/random", name="app_random_max")
+     * @Route("/random", name="app_random")
      * 
      */
     public function random(): Response
@@ -37,19 +39,20 @@ class RandomController extends AbstractController
     }
 
     /**
-     * @Route("/snowflake", name="app_snowstorm")
+     * @Route("/snowflake", name="app_snowflake")
      */
     public function snowtime(SnowflakeRepository $snowflakeRepository): Response
     {
         $snowflakes = $snowflakeRepository->findAll();
 
-        return $this->render('snowstorm/index.html.twig', [
-            'snowflakes' => $snowflakes
-        ]);
+        return $this->render(
+            'snowstorm/index.html.twig',
+            compact('snowflakes')
+        );
     }
 
     /**
-     * @Route("/snowflake/{id}", name="app_snowstorm_id")
+     * @Route("/snowflake/{id}", name="app_snowflake_show", requirements={"id"="\d+"})
      */
     public function snowtimeById(SnowflakeRepository $snowflakeRepository, $id): Response
     {
@@ -61,15 +64,24 @@ class RandomController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="aap_new")
+     * @Route("/new", name="app_new")
      */
-    public function add()
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
-        $snow = new Snowflake();
-        ($form = $this->createForm(SnowflakeType::class, $snow));
+        $snowflake = new Snowflake();
+        $form = $this->createForm(SnowflakeType::class, $snowflake);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($snowflake);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_snowflake');
+        }
 
         return $this->render(
-            'snowstorm/add.html.twig',
+            'snowstorm/create.html.twig',
             ['form' => $form->createView()]
         );
     }

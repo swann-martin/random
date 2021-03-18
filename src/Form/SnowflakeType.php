@@ -16,7 +16,8 @@ class SnowflakeType extends AbstractType
         $builder
             ->add('name')
             ->add('luckyNumber')
-            ->add('description');
+            ->add('description')
+            ->add('CreatedAt');
     }
 
     public function configureOptions(OptionsResolver $resolver)
