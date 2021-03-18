@@ -13,8 +13,7 @@
 
 				<a href="{{ path('app_snowflake_show', {id:snowflake.id}) }}">
 					<div class="card card-snow mx-5 p-2" style="width = 12rem;">
-						<h2 class="title">{{snowflake.name}}
-							:</h2>
+						<h2 class="title text-center">{{snowflake.name}}</h2>
 						<div class="card-body ">
 							<div class="card-content">
 
@@ -24,7 +23,12 @@
 
 								<div>
 									<a href="{{path('app_snowflake_edit', {id:snowflake.id} )}}" class="btn btn-dark my-2">Modifier</a>
-									<a href="{{path('app_snowflake_delete', {id:snowflake.id} )}}" class="btn btn-danger my-2">Supprimer</a>
+
+									<form action="{{path('app_snowflake_delete', {id:snowflake.id} )}}" method="POST">
+										<input type="hidden" name="_method" value="DELETE">
+										<input type="hidden" name="csrf_token" value="{{ csrf_token('snow_deletion_' ~ snowflake.id) }}">
+										<input type="submit" name="" value="Delete this snowflake" class="btn btn-danger my-2">
+									</form>
 								</div>
 
 							</div>

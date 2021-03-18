@@ -7,8 +7,7 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
-		{# Run `composer require symfony/webpack-encore-bundle`
-														           and uncomment the following Encore helpers to start using Symfony UX #}
+		{# Run `composer require symfony/webpack-encore-bundle` and uncomment the following Encore helpers to start using Symfony UX #}
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
@@ -20,9 +19,15 @@
 	<body>
 		{{ include('./common/_header.html.twig') }}
 
+		{% for type,messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert {{ type }}">{{message}}</div>
+			{% endfor %}
+		{% endfor %}
+
+
 		{% block body %}{% endblock %}
 
 		{{ include('./common/_footer.html.twig') }}
-
 	</body>
-</html>
+</html></body></html></body></html>

@@ -114,10 +114,17 @@ class RandomController extends AbstractController
     /**
      * @Route("/snowflake/delete/{id<\d+>}", name ="app_snowflake_delete")
      */
-    public function delete(EntityManagerInterface $manager, Snowflake $snowflake): Response
+    public function delete(Request $request, EntityManagerInterface $manager, Snowflake $snowflake): Response
     {
-        $manager->remove($snowflake);
-        $manager->flush();
+        if ($this->isCsrfTokenValid(
+            'snowflake_deletion_' . $snowflake->getId(),
+            $request->request->get('csrf_token')
+        )) {
+            $manager->remove($snowflake);
+            $manager->flush();
+
+            $this->addFlash('success', 'Your snowflake has been deleted successfully');
+        }
         return $this->redirectToRoute('app_snowflake');
     }
 }
